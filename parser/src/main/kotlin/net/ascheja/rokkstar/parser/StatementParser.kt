@@ -1,8 +1,6 @@
 package net.ascheja.rokkstar.parser
 
 import net.ascheja.rokkstar.ast.*
-import net.ascheja.rokkstar.ast.expressions.*
-import net.ascheja.rokkstar.ast.statements.*
 import net.ascheja.rokkstar.parser.Token.*
 
 class StatementParser(private val lastNameDelegate: LastNameDelegate): BaseParser(lastNameDelegate) {
@@ -62,8 +60,8 @@ class StatementParser(private val lastNameDelegate: LastNameDelegate): BaseParse
         source.next()
         val value = when (source.current) {
             is StringLiteral -> StringConstant(source.current.text).also { source.next() }
-            KW_MYSTERIOUS -> UndefinedConstant().also { source.next() }
-            in NULL_ALIASES -> NullConstant().also { source.next() }
+            KW_MYSTERIOUS -> UndefinedConstant.also { source.next() }
+            in NULL_ALIASES -> NullConstant.also { source.next() }
             in TRUE_ALIASES -> BooleanConstant(true).also { source.next() }
             in FALSE_ALIASES -> BooleanConstant(false).also { source.next() }
             else -> {
@@ -156,11 +154,11 @@ class StatementParser(private val lastNameDelegate: LastNameDelegate): BaseParse
     }
 
     private fun parseContinue(): ContinueStatement {
-        return ContinueStatement()
+        return ContinueStatement
     }
 
     private fun parseBreak(): BreakStatement {
-        return BreakStatement()
+        return BreakStatement
     }
 
     private fun parseIf(source: TokenSource): IfStatement {

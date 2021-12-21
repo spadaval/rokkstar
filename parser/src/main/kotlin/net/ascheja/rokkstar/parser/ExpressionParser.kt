@@ -1,13 +1,13 @@
 package net.ascheja.rokkstar.parser
 
-import net.ascheja.rokkstar.ast.Expression
-import net.ascheja.rokkstar.ast.expressions.*
-import net.ascheja.rokkstar.ast.expressions.BinaryOperatorExpression.Operator.*
+import net.ascheja.rokkstar.ast.*
+import net.ascheja.rokkstar.ast.BinaryOperatorExpression.Operator.*
 import net.ascheja.rokkstar.parser.Token.*
 
-class ExpressionParser internal constructor(lastNameDelegate: LastNameDelegate): BaseParser(lastNameDelegate) {
 
-    constructor(): this(LastNameDelegate())
+class ExpressionParser internal constructor(lastNameDelegate: LastNameDelegate) : BaseParser(lastNameDelegate) {
+
+    constructor() : this(LastNameDelegate())
 
     fun parseExpression(source: TokenSource): Expression {
         return parseLogicalExpression(source)
@@ -42,13 +42,17 @@ class ExpressionParser internal constructor(lastNameDelegate: LastNameDelegate):
                     source.next()
                     LESS
                 }
-                source.current == KW_IS && source.lookahead(1) == KW_AS && source.lookahead(2) in GREATER_EQUAL_ALIASES && source.lookahead(3) == KW_AS -> {
+                source.current == KW_IS && source.lookahead(1) == KW_AS && source.lookahead(2) in GREATER_EQUAL_ALIASES && source.lookahead(
+                    3
+                ) == KW_AS -> {
                     source.next()
                     source.next()
                     source.next()
                     GREATER_EQUALS
                 }
-                source.current == KW_IS && source.lookahead(1) == KW_AS && source.lookahead(2) in LESS_EQUAL_ALIASES && source.lookahead(3) == KW_AS -> {
+                source.current == KW_IS && source.lookahead(1) == KW_AS && source.lookahead(2) in LESS_EQUAL_ALIASES && source.lookahead(
+                    3
+                ) == KW_AS -> {
                     source.next()
                     source.next()
                     source.next()
@@ -103,8 +107,8 @@ class ExpressionParser internal constructor(lastNameDelegate: LastNameDelegate):
     private fun parsePrimaryExpression(source: TokenSource): Expression {
         return when (source.current) {
             is StringLiteral -> StringConstant(source.current.text)
-            KW_MYSTERIOUS -> UndefinedConstant()
-            in NULL_ALIASES -> NullConstant()
+            KW_MYSTERIOUS -> UndefinedConstant
+            in NULL_ALIASES -> NullConstant
             in TRUE_ALIASES -> BooleanConstant(true)
             in FALSE_ALIASES -> BooleanConstant(false)
             else -> {

@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
-    compile(project(":ast"))
-    testCompile("junit:junit:4.12")
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(project(":ast"))
+    testImplementation("junit:junit:4.12")
 }

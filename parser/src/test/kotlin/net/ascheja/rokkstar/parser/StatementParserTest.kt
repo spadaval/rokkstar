@@ -1,9 +1,6 @@
 package net.ascheja.rokkstar.parser
 
-import net.ascheja.rokkstar.ast.Identifier
-import net.ascheja.rokkstar.ast.Statement
-import net.ascheja.rokkstar.ast.expressions.*
-import net.ascheja.rokkstar.ast.statements.*
+import net.ascheja.rokkstar.ast.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -54,7 +51,7 @@ class StatementParserTest {
     fun `mysterious assignment parsed correctly`() {
         val expected = AssignmentStatement(
             Identifier("variable"),
-            UndefinedConstant()
+            UndefinedConstant
         )
         assertEquals(expected, createParser().parseStatement("variable is mysterious"))
     }
@@ -85,7 +82,7 @@ class StatementParserTest {
     fun `null assignment parsed correctly`() {
         val expected = AssignmentStatement(
             Identifier("variable"),
-            NullConstant()
+            NullConstant
         )
         for (keyword in setOf("null", "nothing", "nowhere", "nobody", "empty", "gone")) {
             assertEquals(expected, createParser().parseStatement("variable is $keyword"))
@@ -126,7 +123,7 @@ class StatementParserTest {
                 BinaryOperatorExpression(
                     BinaryOperatorExpression.Operator.EQUALS,
                     VariableLookup(identifier),
-                    NullConstant()
+                    NullConstant
                 ),
                 BlockStatement(ReadLineStatement(identifier))
             ),
@@ -142,7 +139,7 @@ class StatementParserTest {
                 BinaryOperatorExpression(
                     BinaryOperatorExpression.Operator.EQUALS,
                     VariableLookup(identifier),
-                    NullConstant()
+                    NullConstant
                 ),
                 BlockStatement(ReadLineStatement(identifier)),
                 BlockStatement(PrintLineStatement(VariableLookup(identifier)))
@@ -155,7 +152,7 @@ class StatementParserTest {
     fun `While statements parsed correctly`() {
         val expected = WhileLoopStatement(
             BooleanConstant(true),
-            BlockStatement(PrintLineStatement(NullConstant()))
+            BlockStatement(PrintLineStatement(NullConstant))
         )
         assertEquals(expected, createParser().parseStatement("While true\nSay nothing"))
     }
@@ -164,7 +161,7 @@ class StatementParserTest {
     fun `Until statements parsed correctly`() {
         val expected = UntilLoopStatement(
             BooleanConstant(true),
-            BlockStatement(PrintLineStatement(NullConstant()))
+            BlockStatement(PrintLineStatement(NullConstant))
         )
         assertEquals(expected, createParser().parseStatement("Until true\nSay nothing"))
     }

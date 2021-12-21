@@ -1,7 +1,7 @@
 package net.ascheja.rokkstar
 
-import net.ascheja.rokkstar.interpreter.Context
-import net.ascheja.rokkstar.interpreter.Interpreter
+import net.ascheja.rokkstar.interpreter.RockstarVM
+import net.ascheja.rokkstar.interpreter.runProgram
 import net.ascheja.rokkstar.parser.Lexer
 import net.ascheja.rokkstar.parser.StatementParser
 import org.junit.Assert.assertEquals
@@ -53,15 +53,15 @@ class ProgramTest {
     }
 
     private fun readFile(filename: String): String {
+        @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         return File(javaClass.classLoader.getResource(filename).toURI()).readText()
     }
 
     private fun execute(content: String): String {
         val program = StatementParser().parseProgram(Lexer(content).toTokenSource())
         val output = StringBuilder()
-        val context = Context.create({ "" } , { output.append(it).append("\n") })
-        val interpreter = Interpreter(context)
-        interpreter.visitProgram(program)
+        val rockstarVM = RockstarVM(outputFn = { output.appendLine(it) })
+        rockstarVM.runProgram(program)
         return output.toString()
     }
 }

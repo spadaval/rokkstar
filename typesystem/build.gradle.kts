@@ -1,7 +1,19 @@
 plugins {
-    kotlin("jvm")
+    kotlin("multiplatform")
 }
-dependencies {
-    compile(kotlin("stdlib-jdk8"))
-    testCompile("junit:junit:4.12")
+
+kotlin {
+    jvm()
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":ast"))
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+    }
 }

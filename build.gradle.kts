@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.20"
+    kotlin("jvm") version "1.6.10"
     application
 }
 
@@ -10,34 +10,23 @@ allprojects {
     version = "1.0-SNAPSHOT"
 
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
 
 application {
-    mainClassName = "net.ascheja.rokkstar.RokkstarKt"
+    mainClass.set("net.ascheja.rokkstar.rokkstarKt")
 }
 
 val startScripts: CreateStartScripts by tasks
 startScripts.applicationName = "rokkstar"
 
-val ktorVersion = "1.1.1"
-
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
-    compile("io.ktor:ktor-server-netty:$ktorVersion")
-    compile("io.ktor:ktor-jackson:$ktorVersion")
-    compile("ch.qos.logback:logback-classic:1.2.3")
-    compile(project(":interpreter"))
-    compile(project(":parser"))
-    testCompile("junit:junit:4.12")
-}
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(project(":interpreter"))
+    implementation(project(":parser"))
+    implementation(project(":typesystem"))
+    implementation(project(":ast"))
 
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-}
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+    testImplementation("junit:junit:4.13.2")
 }

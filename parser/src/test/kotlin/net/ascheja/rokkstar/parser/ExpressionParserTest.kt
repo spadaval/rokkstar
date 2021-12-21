@@ -1,9 +1,7 @@
 package net.ascheja.rokkstar.parser
 
-import net.ascheja.rokkstar.ast.Expression
-import net.ascheja.rokkstar.ast.Identifier
-import net.ascheja.rokkstar.ast.expressions.*
-import net.ascheja.rokkstar.ast.expressions.BinaryOperatorExpression.Operator.*
+import net.ascheja.rokkstar.ast.*
+import net.ascheja.rokkstar.ast.BinaryOperatorExpression.Operator.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
@@ -13,7 +11,7 @@ class ExpressionParserTest {
     @Test
     fun `mysterious assignment parsed correctly`() {
         assertEquals(
-            UndefinedConstant(),
+            UndefinedConstant,
             createParser().parseExpression("mysterious")
         )
     }
@@ -41,7 +39,7 @@ class ExpressionParserTest {
     @Test
     fun `null assignment parsed correctly`() {
         for (keyword in setOf("null", "nothing", "nowhere", "nobody", "empty", "gone")) {
-            assertEquals(NullConstant(), createParser().parseExpression(keyword))
+            assertEquals(NullConstant, createParser().parseExpression(keyword))
         }
     }
 
