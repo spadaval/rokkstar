@@ -10,10 +10,6 @@ fun RockstarVM.runFunction(expression: FunctionCallExpression): Value = this.run
     declaration.parameters.forEachIndexed { index, name ->
         this[name] = if (index < arguments.size) arguments[index] else UndefinedValue
     }
-
-    declaration.parameters.forEach { name ->
-        println("$name: ${this.getVariable(name)}")
-    }
     when (val result = this.runStatement(declaration.body)) {
         is Result.Return -> result.value
         else -> UndefinedValue

@@ -10,34 +10,28 @@ private val UNDEFINED_FUNCTION = FunctionDeclaration(
 )
 
 // scopes are variable-only for now, first-class function support not provided yet
-data class Scope(
+data class StackFrame(
     private val variables: MutableMap<Identifier, Value> = mutableMapOf(),
-    val parent: Scope? = null
+    val parent: StackFrame? = null
 ) {
-    fun isVariableDefined(identifier: Identifier): Boolean =
-        variables.contains(identifier) || (parent != null && parent.isVariableDefined(identifier))
-
     operator fun set(name: Identifier, value: Value) {
         variables[name] = value
     }
 
-    operator fun get(name: Identifier): Value =
-        variables[name] ?: parent?.get(name) ?: error("Variable ${name.value} is not defined")
+    operator fun get(name: Identifier): Value? =
+        variables[name] ?: parent?.get(name)
 }
 
 // data model for the Rockstar Virtual Machine
 data class RockstarVM(
     //functions are global
     private val functionDeclarations: MutableMap<Identifier, FunctionDeclaration> = mutableMapOf(),
-    private val stack: MutableList<Scope> = mutableListOf(Scope()),
+    private val stack: MutableList<StackFrame> = mutableListOf(StackFrame()),
     val outputFn: (Value) -> Unit = ::println
 ) {
 
     private val topOfStack
         get() = stack[stack.size - 1]
-
-    private fun identifierInUse(identifier: Identifier): Boolean =
-        functionDeclarations.contains(identifier) || topOfStack.isVariableDefined(identifier)
 
     operator fun set(name: Identifier, declaration: FunctionDeclaration) {
         functionDeclarations[name] = declaration
@@ -51,10 +45,10 @@ data class RockstarVM(
         functionDeclarations[name] ?: UNDEFINED_FUNCTION
 
     fun getVariable(name: Identifier): Value =
-        topOfStack[name]
+        stack.firstNotNullOf { it[name] }
 
     private fun push() {
-        stack.add(Scope())
+        stack.add(StackFrame())
     }
 
     private fun pop() {
