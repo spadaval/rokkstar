@@ -1,3 +1,5 @@
+@file:Suppress("DANGEROUS_CHARACTERS")
+
 package net.ascheja.rokkstar.parser
 
 import net.ascheja.rokkstar.parser.Token.*

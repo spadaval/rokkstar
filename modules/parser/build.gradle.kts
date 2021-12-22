@@ -4,6 +4,6 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation(project(":ast"))
+    implementation(project(":modules:ast"))
     testImplementation("junit:junit:4.12")
 }

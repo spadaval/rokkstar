@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 plugins {
     kotlin("multiplatform") version "1.6.10"
 }
@@ -7,7 +9,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":ast"))
+                implementation(project(":modules:ast"))
             }
         }
         val jvmTest by getting {

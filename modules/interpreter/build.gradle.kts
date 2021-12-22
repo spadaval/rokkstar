@@ -6,11 +6,11 @@ kotlin {
     jvm()
     sourceSets {
         val commonMain by getting {
-            kotlin.srcDir("src")
             dependencies {
-                implementation(kotlin("stdlib-common"))
+                implementation(project(":modules:ast"))
+                implementation(project(":modules:typesystem"))
+                implementation("io.arrow-kt:arrow-core:1.0.1")
             }
         }
     }
 }
-

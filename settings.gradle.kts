@@ -1,3 +1,6 @@
-rootProject.name = "rokkstar-parent"
-include("cli", "typesystem", "ast", "interpreter", "parser")
-include("modules")
+rootProject.name = "rokkstar"
+include("modules:interpreter")
+include("modules:parser")
+include("modules:typesystem")
+include("modules:ast")
+include("cli")
