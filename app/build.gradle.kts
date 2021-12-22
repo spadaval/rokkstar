@@ -5,15 +5,6 @@ plugins {
     application
 }
 
-allprojects {
-    group = "net.ascheja.rokkstar"
-    version = "1.0-SNAPSHOT"
-
-    repositories {
-        mavenCentral()
-    }
-}
-
 application {
     mainClass.set("net.ascheja.rokkstar.rokkstarKt")
 }
