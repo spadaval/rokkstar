@@ -12,14 +12,13 @@ private val UNDEFINED_FUNCTION = FunctionDeclaration(
 // scopes are variable-only for now, first-class function support not provided yet
 data class StackFrame(
     private val variables: MutableMap<Identifier, Value> = mutableMapOf(),
-    val parent: StackFrame? = null
 ) {
     operator fun set(name: Identifier, value: Value) {
         variables[name] = value
     }
 
     operator fun get(name: Identifier): Value? =
-        variables[name] ?: parent?.get(name)
+        variables[name]
 }
 
 // data model for the Rockstar Virtual Machine
@@ -45,7 +44,7 @@ data class RockstarVM(
         functionDeclarations[name] ?: UNDEFINED_FUNCTION
 
     fun getVariable(name: Identifier): Value =
-        stack.firstNotNullOf { it[name] }
+        stack.reversed().firstNotNullOf { it[name] }
 
     private fun push() {
         stack.add(StackFrame())
